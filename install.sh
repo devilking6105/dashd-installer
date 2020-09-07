@@ -3,18 +3,18 @@ set -u
 set -e
 
 DASH_NUM_CPUS=${DASH_NUM_CPUS:-1}
-my_tmpd=/opt/dashpay/deps
+my_tmpd=/opt/helpthehomeless/deps
 sudo mkdir -p $my_tmpd
 #my_tmpd=$(mktemp -d)
 echo "#################################"
 echo "##  tmpdir: $my_tmpd  ##"
 echo "#################################"
-dash_prefix=/opt/dashpay
+helpthehomeless_prefix=/opt/helpthehomeless
 #my_prefix=/usr/local
-my_prefix=/opt/dashpay
-sudo mkdir -p $dash_prefix/etc $dash_prefix/var
+my_prefix=/opt/helpthehomeless
+sudo mkdir -p $helpthehomeless_prefix/etc $helpthehomeless_prefix/var
 sudo mkdir -p $my_prefix
-sudo chown -R $(whoami):$(whoami) $my_tmpd $dash_prefix
+sudo chown -R $(whoami):$(whoami) $my_tmpd $helpthehomeless_prefix
 
 export CPPFLAGS="-I$my_prefix/include ${CPPFLAGS:-}"
 export CXXFLAGS="$CPPFLAGS"
@@ -110,7 +110,7 @@ pushd $my_tmpd
   # Install dash
   #########################
 
-  git clone --depth 1 https://github.com/dashpay/dash
+  git clone --depth 1 https://github.com/HTHcoin/HelpTheHomeless
   #Or if you want to test the last updates :
   #git clone https://github.com/dashpay/dash -b v0.12.2.x
 
@@ -130,10 +130,10 @@ pushd $my_tmpd
 
 popd
 
-sudo adduser dashpay --home /opt/dashpay --disabled-password --gecos ''
-sudo rsync -av ./dash.conf $dash_prefix/etc/
-sudo chown -R dashpay:dashpay $dash_prefix/
-sudo rsync -av ./dist/etc/systemd/system/dashd.service /etc/systemd/system/
+sudo adduser hth --home /opt/helpthehomeless --disabled-password --gecos ''
+sudo rsync -av ./helpthehomeless.conf $helpthehomeless_prefix/etc/
+sudo chown -R helpthehomeless:helpthehomeless $helpthehomeless_prefix/
+sudo rsync -av ./dist/etc/systemd/system/helpthehomelessd.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable dashd
-sudo systemctl start dashd
+sudo systemctl enable helpthehomelessd
+sudo systemctl start helpthehomelessd
