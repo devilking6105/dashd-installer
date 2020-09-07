@@ -1,10 +1,10 @@
 # Pre-req
-# sudo adduser dashpay --home /opt/dashpay
-# sudo mkdir -p /opt/dashpay/var/
-# sudo chown -R dashpay:dashpay /opt/dashpay/
+# sudo adduser hth --home /opt/helpthehomeless
+# sudo mkdir -p /opt/helpthehomeless/var/
+# sudo chown -R helpthehomeless:helpthehomeless /opt/helpthehomeless/
 
 [Unit]
-Description=A Full Dash Node
+Description=A Full HTH Node
 Documentation=https://github.com/dashpay/dash
 After=network-online.target
 Wants=network-online.target systemd-networkd-wait-online.service
@@ -19,15 +19,15 @@ StartLimitBurst=3
 
 # User and group the process will run as
 # (git is the de facto standard on most systems)
-User=dashpay
-Group=dashpay
+User=hth
+Group=hth
 
 WorkingDirectory=/opt/dashpay
 # custom directory cannot be set and will be the place where dashpay exists, not the working directory
-Environment="LD_LIBRARY_PATH=/opt/dashpay/lib"
-Environment="PKG_CONFIG_PATH=/opt/dashpay/lib/pkgconfig"
-#ExecStart=/opt/dashpay/bin/dashd -daemon -conf=/opt/dashpay/etc/dash.conf -datadir=/opt/dashpay/var
-ExecStart=/opt/dashpay/bin/dashd -conf=/opt/dashpay/etc/dash.conf -datadir=/opt/dashpay/var
+Environment="LD_LIBRARY_PATH=/opt/helpthehomeless/lib"
+Environment="PKG_CONFIG_PATH=/opt/helpthehomeless/lib/pkgconfig"
+#ExecStart=/opt/helpthehomeless/bin/helpthehomelessd -daemon -conf=/opt/helpthehomeless/etc/helpthehomeless.conf -datadir=/opt/helpthehomeless/var
+ExecStart=/opt/helpthehomeless/bin/helpthehomelessd -conf=/opt/helpthehomeless/etc/helpthehomeless.conf -datadir=/opt/helpthehomeless/var
 ExecReload=/bin/kill -USR1 $MAINPID
 
 # Limit the number of file descriptors and processes; see `man systemd.exec` for more limit settings.
@@ -43,17 +43,17 @@ PrivateDevices=true
 ProtectHome=true
 # Make /usr, /boot, /etc and possibly some more folders read-only.
 ProtectSystem=full
-# ... except /opt/dashpay because we want a place for the database
-# and /opt/dashpay/bin/dashd because we want a place where logs can go.
+# ... except /opt/helpthehomeless because we want a place for the database
+# and /opt/helpthehomeless/bin/helpthehomelessd because we want a place where logs can go.
 # This merely retains r/w access rights, it does not add any new.
 # Must still be writable on the host!
-ReadWriteDirectories=/opt/dashpay
+ReadWriteDirectories=/opt/helpthehomeless
 
 # Note: in v231 and above ReadWritePaths has been renamed to ReadWriteDirectories
-; ReadWritePaths=/opt/dashpay
+; ReadWritePaths=/opt/helpthehomeless
 
 # The following additional security directives only work with systemd v229 or later.
-# They further retrict privileges that can be gained by dashpay.
+# They further retrict privileges that can be gained by helpthehomeless.
 # Note that you may have to add capabilities required by any plugins in use.
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE
 AmbientCapabilities=CAP_NET_BIND_SERVICE
